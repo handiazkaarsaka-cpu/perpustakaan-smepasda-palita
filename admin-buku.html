@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin Panel</title>
+
+<style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #f3f3f3; }
+    .sidebar {
+        width: 220px; background: #222; color: #fff; height: 100vh;
+        position: fixed; padding-top: 20px;
+    }
+    .sidebar a {
+        display: block; color: #fff; padding: 12px 20px; text-decoration: none;
+    }
+    .sidebar a:hover { background: #444; }
+    .content {
+        margin-left: 240px; padding: 20px;
+    }
+    h2 { margin-top: 0; }
+    .card {
+        background: #fff; padding: 20px; border-radius: 8px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1); margin-bottom: 30px;
+    }
+    input, textarea {
+        width: 100%; padding: 10px; margin-bottom: 10px;
+        border: 1px solid #ccc; border-radius: 5px;
+    }
+    button {
+        padding: 10px 18px; border: none; background: #007bff;
+        color: #fff; border-radius: 5px; cursor: pointer;
+    }
+    button:hover { background: #005fcc; }
+    table {
+        width: 100%; border-collapse: collapse;
+    }
+    th, td {
+        padding: 12px; border-bottom: 1px solid #ddd;
+    }
+    .edit { background: #28a745; }
+    .edit:hover { background: #1f7f35; }
+    .delete { background: #dc3545; }
+    .delete:hover { background: #a82733; }
+</style>
+
+</head>
+<body>
+
+<div class="sidebar">
+    <a href="#" onclick="showPanel('buku')">Katalog Buku</a>
+    <a href="#" onclick="showPanel('berita')">Berita</a>
+</div>
+
+<div class="content">
+
+    <!-- PANEL BUKU -->
+    <div id="panel-buku" class="panel">
+        <h2>Kelola Katalog Buku</h2>
+
+        <div class="card">
+            <h3>Tambah Buku</h3>
+            <input type="text" id="judulBuku" placeholder="Judul Buku">
+            <input type="text" id="penulisBuku" placeholder="Penulis">
+            <textarea id="deskripsiBuku" placeholder="Deskripsi"></textarea>
+            <button onclick="addBuku()">Tambah</button>
+        </div>
+
+        <div class="card">
+            <h3>Daftar Buku</h3>
+            <table id="tabelBuku">
+                <tr>
+                    <th>Judul</th>
+                    <th>Penulis</th>
+                    <th>Aksi</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- PANEL BERITA -->
+    <div id="panel-berita" class="panel" style="display:none;">
+        <h2>Kelola Berita</h2>
+
+        <div class="card">
+            <h3>Tambah Berita</h3>
+            <input type="text" id="judulBerita" placeholder="Judul Berita">
+            <textarea id="isiBerita" placeholder="Isi berita..."></textarea>
+            <button onclick="addBerita()">Tambah</button>
+        </div>
+
+        <div class="card">
+            <h3>Daftar Berita</h3>
+            <table id="tabelBerita">
+                <tr>
+                    <th>Judul</th>
+                    <th>Aksi</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function showPanel(panel) {
+    document.getElementById("panel-buku").style.display = "none";
+    document.getElementById("panel-berita").style.display = "none";
+    document.getElementById("panel-" + panel).style.display = "block";
+}
+
+// ======================= BUKU ==========================
+function addBuku() {
+    let judul = document.getElementById("judulBuku").value;
+    let penulis = document.getElementById("penulisBuku").value;
+
+    if (!judul || !penulis) return alert("Isi semua data!");
+
+    let table = document.getElementById("tabelBuku");
+    table.innerHTML += `
+        <tr>
+            <td>${judul}</td>
+            <td>${penulis}</td>
+            <td>
+                <button class="edit">Edit</button>
+                <button class="delete" onclick="this.parentElement.parentElement.remove()">Hapus</button>
+            </td>
+        </tr>
+    `;
+
+    document.getElementById("judulBuku").value = "";
+    document.getElementById("penulisBuku").value = "";
+}
+
+// ======================= BERITA ==========================
+function addBerita() {
+    let judul = document.getElementById("judulBerita").value;
+
+    if (!judul) return alert("Judul wajib diisi!");
+
+    let table = document.getElementById("tabelBerita");
+    table.innerHTML += `
+        <tr>
+            <td>${judul}</td>
+            <td>
+                <button class="edit">Edit</button>
+                <button class="delete" onclick="this.parentElement.parentElement.remove()">Hapus</button>
+            </td>
+        </tr>
+    `;
+
+    document.getElementById("judulBerita").value = "";
+}
+</script>
+
+</body>
+</html>
